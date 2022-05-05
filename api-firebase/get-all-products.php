@@ -35,7 +35,7 @@
             $i = 0;
             foreach($res as $row){
                 
-                $sql = "SELECT *,(SELECT short_code FROM unit u WHERE u.id=pv.measurement_unit_id) as measurement_unit_name,(SELECT short_code FROM unit u WHERE u.id=pv.stock_unit_id) as stock_unit_name FROM product_variant pv WHERE pv.product_id=".$row['id']." ";
+                $sql = "SELECT * FROM products s INNER JOIN product_variant pv ON s.id = pv.product_id";
                 $db->sql($sql);
                 $row['other_images'] = json_decode($row['other_images'],1);
                 $row['other_images'] = (empty($row['other_images']))?array():$row['other_images'];

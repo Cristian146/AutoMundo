@@ -190,7 +190,7 @@
                             #'discounted_price'=>$db->escapeString($_POST['packate_discounted_price'][$i]),
                             'stock'=>$db->escapeString($_POST['packate_stock'][$i]),
                             'stock_unit_id'=>$db->escapeString($_POST['packate_stock_unit_id'][$i]),
-                            'serve_for'=>$db->escapeString($_POST['packate_serve_for'][$i]),
+                            'serve_for'=>$db->$_POST['packate_serve_for'],
 
                         );
                         $db->update('product_variant',$data,'id='.$_POST['product_variant_id'][$i]);
@@ -342,12 +342,7 @@
                                         <label for="price">Precio  (<?=$settings['currency']?>):</label><input type="text" class="form-control" name="packate_price[]" id="packate_price"  value='<?=$row['price'];?>' required />
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group packate_div">
-                                        <label for="discounted_price">Precio descontado(<?=$settings['currency']?>):</label>
-                                        <input type="text" class="form-control" name="packate_discounted_price[]" id="discounted_price" value='<?=$row['discounted_price'];?>'/>
-                                    </div>
-                                </div>
+                                 
                                 <div class="col-md-1">
                                     <div class="form-group packate_div">
                                         <label for="qty">Stock:</label>
@@ -502,12 +497,6 @@
                                         <input type="text" class="form-control" name="loose_price[]" id="loose_price" required="" value='<?=$row['price'];?>'>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group loose_div">
-                                        <label for="discounted_price">Precio descontado(<?=$settings['currency']?>):</label>
-                                        <input type="text" class="form-control" name="loose_discounted_price[]" id="discounted_price"  value='<?=$row['discounted_price'];?>'/>
-                                    </div>
-                                </div>
                                 <?php if($i==0){?>
                                     <div class='col-md-1'>
                                         <label>Variacion</label>
@@ -570,12 +559,6 @@
                         		    <div class="form-group loose_div">
                             		    <label for="price">Precio (S/.):</label>
                             		    <input type="text" class="form-control" name="loose_price[]" id="loose_price" required="">
-                        		    </div>
-                        		</div>
-                        		<div class="col-md-2">
-                        		    <div class="form-group loose_div">
-                                		<label for="discounted_price">Precio descontado:</label>
-                                		<input type="text" class="form-control" name="loose_discounted_price[]" id="discounted_price"/>
                         		    </div>
                         		</div>
                         		<div class="col-md-1">
@@ -739,7 +722,6 @@ $('#add_loose_variation').on('click',function(){
     +'<input type="text" class="form-control" name="insert_loose_price[]" id="loose_price" required="">'
     +'</div></div>'
     +'<div class="col-md-2"><div class="form-group loose_div">'
-    +'<label for="discounted_price">Precio descontado(<?=$settings['currency']?>):</label>'
     +'<input type="text" class="form-control" name="insert_loose_discounted_price[]" id="discounted_price"/>'
     +'</div></div>'
     +'<div class="col-md-1" style="display: grid;">'
@@ -761,7 +743,6 @@ $('#add_packate_variation').on('click',function(){
         +'<label for="price">Precio  (<?=$settings['currency']?>):</label><input type="text" class="form-control" name="insert_packate_price[]" id="packate_price" required />'
         +'</div></div>'
         +'<div class="col-md-2"><div class="form-group packate_div">'
-        +'<label for="discounted_price">Precio descontado(<?=$settings['currency']?>):</label>'
         +'<input type="text" class="form-control" name="insert_packate_discounted_price[]" id="discounted_price"/>'
         +'</div></div>'
         +'<div class="col-md-1"><div class="form-group packate_div">'

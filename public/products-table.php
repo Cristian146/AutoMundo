@@ -73,7 +73,6 @@
                         <tr>
                             <th data-field="id" data-sortable="true">ID</th>
                             <th data-field="name" data-sortable="true">Nombre</th>
-                            <th data-field="name" data-sortable="true">Codigo</th>
                             <th data-field="image">Imagen</th>
                             <th data-field="stock" data-sortable="true" >Stock</th>
                             <th data-field="price" data-sortable="true">Precio</th>  

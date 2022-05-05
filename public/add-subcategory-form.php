@@ -30,6 +30,10 @@
 			if(empty($subcategory_name)){
 				$error['subcategory_name'] = " <span class='label label-danger'>obligatorio!</span>";
 			}
+			if(empty($category_subtitle)){
+				$error['category_subtitle'] = " <span class='label label-danger'>obligatorio!</span>";
+			}
+			
 			// common image file extensions
 			$allowedExts = array("gif", "jpeg", "jpg", "png");
 			
@@ -63,8 +67,8 @@
 		
 				// insert new data to menu table
 				$upload_image = 'upload/images/'.$menu_image;
-				$sql_query = "INSERT INTO subcategory (category_id, name, image)
-						VALUES('$main_category', '$subcategory_name', '$upload_image')";
+				$sql_query = "INSERT INTO subcategory (category_id, name, slug,image)
+						VALUES('$main_category', '$subcategory_name','$slug', '$upload_image')";
 				
 				
 					// Execute query

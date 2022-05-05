@@ -21,7 +21,7 @@
 			$category = $_POST['category'];
 			$name = $_POST['name'];
 			$slug = $function->slugify($_POST['name']);
-    		  $sql = "SELECT slug,city_ids FROM subcategory where id=".$_GET['id'];
+    		  $sql = "SELECT slug FROM subcategory where id=".$_GET['id'];
               $db->sql($sql);
               $res = $db->getResult();
               $i=1;
@@ -31,8 +31,6 @@
                     $i++;  
                   }
               }
-			$subtitle = $_POST['subtitle'];
-			
 			$menu_image = $_FILES['image']['name'];
 			$image_error = $_FILES['image']['error'];
 			$image_type = $_FILES['image']['type'];
@@ -42,9 +40,6 @@
 				
 			if(empty($name)){
 				$error['name'] = " <span class='label label-danger'>obigatorio!</span>";
-			}
-			if(empty($subtitle)){
-				$error['subtitle'] = " <span class='label label-danger'>obigatorio!</span>";
 			}
 			
 		
@@ -66,7 +61,7 @@
 				}
 			}
 				
-			if(!empty($name) && !empty($subtitle) && empty($error['image'])){
+			if(!empty($name) && empty($error['image'])){
 					
 				if(!empty($menu_image)){
 					
@@ -83,7 +78,7 @@
 					$upload = move_uploaded_file($_FILES['image']['tmp_name'], 'upload/images/'.$image);
 	  				$upload_image = 'upload/images/'.$image;
 					$sql_query = "UPDATE subcategory 
-							SET category_id='".$category."', name = '".$name."', slug = '".$slug."',  subtitle = '".$subtitle."',image = '".$upload_image."'
+							SET category_id='".$category."', name = '".$name."', slug = '".$slug."',image = '".$upload_image."'
 							WHERE id =".$ID;
 					
 						$db->sql($sql_query);
@@ -99,7 +94,7 @@
 				}else{
 					
 					$sql_query = "UPDATE subcategory 
-							SET category_id='".$category."', name = '".$name."', slug = '".$slug."', subtitle = '".$subtitle."', image = '".$previous_subcategory_image."'
+							SET category_id='".$category."', name = '".$name."', slug = '".$slug."', image = '".$previous_subcategory_image."'
 							WHERE id = '".$ID."'";
 						// Execute query
 							$db->sql($sql_query);
@@ -208,10 +203,6 @@
                     <div class="form-group">
                       <label for="exampleInputEmail1">Nombre de subcategoría</label><?php echo isset($error['name']) ? $error['name'] : '';?>
                       <input type="text" class="form-control"  name="name" value="<?php echo $res[0]['name']; ?>">
-                    </div>
-					<div class="form-group">
-                      <label for="exampleInputEmail1">Subcategoría Subtítulo</label><?php echo isset($error['subtitle']) ? $error['subtitle'] : '';?>
-                      <input type="text" class="form-control"  name="subtitle" value="<?php echo $res[0]['subtitle']; ?>">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputFile">Image&nbsp;&nbsp;&nbsp;*Elija una imagen cuadrada de más de 350 px * 350 px y más pequeña que 550 px * 550 px.</label><?php echo isset($error['image']) ? $error['image'] : '';?>

@@ -94,11 +94,7 @@
 // 		print_r($res);
 		;
 		for($i=0;$i<count($res);$i++) {
-			$sql="select oi.*,p.name as name, u.name as uname,v.measurement, (SELECT short_code FROM unit un where un.id=v.measurement_unit_id)as mesurement_unit_name,(SELECT status FROM orders o where o.id=oi.order_id)as order_status from `order_items` oi 
-			    join product_variant v on oi.product_variant_id=v.id 
-			    join products p on p.id=v.product_id 
-			    JOIN users u ON u.id=oi.user_id 
-			    where oi.order_id=".$res[$i]['id'];
+			$sql="SELECT * from products p inner join product_variant pv on p.id = pv.product_id".$res[$i]['id'];
     		$db->sql($sql);
     		$res[$i]['items'] = $db->getResult();
     // 		print_r($res[$i]['items']);
@@ -115,7 +111,7 @@
 			$temp = '';
 			$total_amt=0;
 			foreach($items as $item){
-				$temp .= "<b>ID :</b>".$item['id']."<b> ID producto variant:</b> ".$item['product_variant_id']."<b> Nombre : </b>".$item['name']." <b>IVA : </b>".$item['iva'].$item['mesurement_unit_name']." <b>Precio : </b>".$item['price']." <b>Cantidad : </b>".$item['quantity']." <b>Subtotal : </b>".$item['quantity']*$item['price']."<br>------<br>";
+				$temp .= "<b>ID :</b>".$item['id']."<b> ID producto variant:</b> ".$item['product_variant_id']."<b> Nombre : </b>".$item['name']."00.. <b>Precio : </b>".$item['price']." <b>Cantidad : </b>".$item['quantity']." <b>Subtotal : </b>".$item['quantity']*$item['price']."<br>------<br>";
 				$total_amt += $item['sub_total'];
 			}
 
@@ -257,7 +253,7 @@
 		
 		if(isset($_GET['search'])){
 			$search = $_GET['search'];
-			$where = " Where s.`id` like '%".$search."%' OR `name` like '%".$search."%' OR `subtitle` like '%".$search."%' OR `image` like '%".$search."%'";
+			$where = " Where s.`id` like '%".$search."%' OR `name` like '%".$search."%'OR `image` like '%".$search."%'";
 		}
 		
 // 		$sql = "SELECT COUNT(*) as total FROM `subcategory` ".$where;
@@ -267,7 +263,8 @@
 		foreach($res as $row)
 			$total = $row['total'];
 		
-		$sql = "SELECT s.*,(SELECT name FROM category c WHERE c.id=s.category_id) as category_name FROM `subcategory` s".$where." ORDER BY ".$sort." ".$order." LIMIT ".$offset.", ".$limit;
+		//$sql = "SELECT s.*,(SELECT name FROM category c WHERE c.id=s.category_id) as category_name FROM `subcategory` s".$where." ORDER BY ".$sort." ".$order." LIMIT ".$offset.", ".$limit;
+		$sql = "select s.*, c.name as nombre from subcategory s inner join category c on s.category_id = c.id";
 		$db->sql($sql);
 		$res = $db->getResult();
 		$bulkData = array();
@@ -282,8 +279,8 @@
 			$operate .= ' <a class="btn-xs btn-danger" href="eliminar-subcategoria.php?id='.$row['id'].'"><i class="fa fa-trash-o"></i>Eliminar</a>';
 			$tempRow['id'] = $row['id'];
 			$tempRow['name'] = $row['name'];
-			$tempRow['category_name'] = $row['category_name'];
-			$tempRow['subtitle'] = $row['subtitle'];
+			$tempRow['cname'] = $row['nombre'];
+			//$tempRow['slug'] = $row['slug'];
 			$tempRow['image'] = "<a data-lightbox='category' href='".$row['image']."' data-caption='".$row['name']."'><img src='".$row['image']."' title='".$row['name']."' height='50' /></a>";
 			$tempRow['operate'] = $operate;
 			$rows[] = $tempRow;
@@ -331,7 +328,7 @@
 		$join = "JOIN `product_variant` pv ON pv.product_id = p.id
             LEFT JOIN `unit` u ON u.id = pv.measurement_unit_id";
 		
-		$sql = "SELECT COUNT(p.id) as `total` FROM `products` p $join ".$where."" ;
+		$sql = "SELECT COUNT(p.id) as `total` FROM products p" ;
 // 		echo $sql;
 		$db->sql($sql);
 		$res = $db->getResult();
@@ -339,10 +336,7 @@
 			$total = $row['total'];
 		
 // 		$sql = "SELECT * FROM products ".$where." ORDER BY ".$sort." ".$order." LIMIT ".$offset.", ".$limit;
-        $sql = "SELECT p.id AS id, p.name, p.image, pv.price, pv.discounted_price, pv.measurement, pv.serve_for, pv.stock, u.short_code 
-            FROM `products` p
-            $join 
-            $where ORDER BY $sort $order LIMIT $offset, $limit";
+        $sql ="select p.*, pv.* ,p.id from products p inner join product_variant pv on p.id=pv.product_id";
         // echo $sql;
 		$db->sql($sql);
 		$res = $db->getResult();
@@ -362,9 +356,7 @@
 			
 			$tempRow['id'] = $row['id'];
 			$tempRow['name'] = $row['name'];
-			$tempRow['measurement'] = $row['measurement']." ".$row['short_code'];
-			$tempRow['price'] = $currency." ".$row['price'];
-			$tempRow['discounted_price'] = $currency." ".$row['discounted_price'];
+			$tempRow['price'] = $row['price'];
 			$tempRow['serve_for'] = $row['serve_for'];
 			$tempRow['stock'] = $row['stock'];
 			$tempRow['image'] = "<a data-lightbox='product' href='".$row['image']."' data-caption='".$row['name']."'><img src='".$row['image']."' title='".$row['name']."' height='50' /></a>";

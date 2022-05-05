@@ -32,7 +32,7 @@
                         <tr>
                             <th data-field="id" data-sortable="true">ID</th>
                             <th data-field="name" data-sortable="true">Nombre</th>
-                            <th data-field="category_name" data-sortable="true">categoria principal</th>
+                            <th data-field="cname" data-sortable="true">Categoria principal</th>
                             <th data-field="image">Imagen</th>
                             <th data-field="operate">Accion</th>
                         </tr>

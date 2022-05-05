@@ -33,7 +33,7 @@ session_start();
     }else{
     	$ID = "";
     }
-    $sql = "SELECT p.*,v.*,v.id as variant_id,(SELECT short_code FROM unit u where u.id=v.measurement_unit_id)as mesurement_unit_name,(SELECT short_code FROM unit u where u.id=v.stock_unit_id)as stock_unit_name FROM products p JOIN product_variant v ON v.product_id=p.id where p.id=".$ID;
+    $sql = "SELECT * FROM products p inner join product_variant pv on p.id = pv.product_id where p.id=$ID";
      $db->sql($sql);
     $res=$db->getResult();
     ?>
@@ -63,7 +63,7 @@ session_start();
                     <div class="box-header">
                         <?php
                          
-                        $sql="SELECT name FROM products WHERE id=".$ID;
+                        $sql="SELECT name FROM products WHERE id=$ID";
                         $db->sql($sql);
 
                             $product_name = $db->getResult();
@@ -81,11 +81,9 @@ session_start();
                                   <th> N°</th>
                                  <th> Nombre </th>
                                  <th> Imagen </th>
-                                 <th> Medición </th>
                                  <th> Estado </th>
                                  <th> Stock </th>
-                                 <th> Precio (<?=$settings['currency']?>) </th>
-                                 <th> Precio con descuento (<?=$settings['currency']?>) </th>
+                                 <th> Precio</th>
                                  <th> Acción </th>
                             </tr>
                             <?php 
@@ -100,11 +98,10 @@ session_start();
                                 <td><?php echo $count; ?></td>
                                 <td><?php echo $row['name'];?></td>
                                 <td width="10%"><img src="<?php echo $row['image']; ?>" width="60" height="40"/></td>
-                                <td><?php echo $row['stock']." ".$row['mesurement_unit_name'];?></td>
-                                <td><?php echo $row['iva'];?></td>
-                                <td><?php echo $row['price'];?></td>
-                                <td><?php echo $row['discounted_price'];?></td>                                
-                                <td><a href="detalle-producto.php?id=<?php echo $row['variant_id'];?>"><i class="fa fa-folder-open"></i>Ver</a> <a href="editar-producto.php?id=<?php echo $row['product_id'];?>"><i class="fa fa-edit"></i>Editar</a></td>
+                                <td><?php echo $row['serve_for'];?></td>
+                                <td><?php echo $row['stock'];?></td>
+                                <td><?php echo $row['price'];?></td>                        
+                                <td><a href="detalle-producto.php?id=<?php echo $row['id'];?>"><i class="fa fa-folder-open"></i>Ver</a> <a href="editar-producto.php?id=<?php echo $row['product_id'];?>"><i class="fa fa-edit"></i>Editar</a></td>
 
 
                             </tr>

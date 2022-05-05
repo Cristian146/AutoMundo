@@ -151,21 +151,22 @@
                 $db->sql($sql);
                 $res_inner=$db->getResult();
 			if($_POST['type']=='packet'){
-			    for($i=0;$i<($_POST['packate_measurement']);$i++){
+			    // for($i=0;$i<count($_POST['packate_measurement']);$i++){
                     $product_id=$db->escapeString($res_inner[0]['id']);
                     $type=$db->escapeString($_POST['type']);
-                    $measurement=$db->escapeString($_POST['packate_measurement'][$i]);
                     #$measurement_unit_id=$db->escapeString($_POST['packate_measurement_unit_id'][$i]);
-                    $price=$db->escapeString($_POST['packate_price'][$i]);
+                    $price=(int) ($_POST['packate_price']);
                     #$discounted_price=!empty($_POST['packate_discounted_price'][$i])?$db->escapeString($_POST['packate_discounted_price'][$i]):0;
-                    $serve_for=$db->escapeString($_POST['packate_serve_for'][$i]);
-                    $stock=$db->escapeString($_POST['packate_stock'][$i]);
-                    $stock_unit_id=$db->escapeString($_POST['packate_stock_unit_id'][$i]);
+                    $serve_for=$db->escapeString($_POST['packate_serve_for']);
+                    $stock=(int) ($_POST['packate_stock']);
+                    $stock_unit_id=(int) ($_POST['packate_stock_unit_id']);
 
-                    $sql="INSERT INTO product_variant (product_id,type,measurement,price,serve_for,stock,stock_unit_id) VALUES('$product_id','$measurement','$type','$price','$serve_for','$stock','$stock_unit_id')";
+                    $sql="INSERT INTO product_variant (product_id,type,price,serve_for,stock,stock_unit_id) VALUES('$product_id','$type','$price','$serve_for','$stock','$stock_unit_id')";
                      $db->sql($sql);
+                     
                      $product_variant = $db->getResult();   
-			    }
+                    
+			    // }
                     if(!empty($product_variant)){
                     $product_variant=0;
                 }
@@ -175,8 +176,12 @@
                 // print_r($product_variant);
 			    
 			}elseif($_POST['type']=="loose"){
+
 			    for($i=0;$i<($_POST['loose_measurement']);$i++){
                     $product_id=$db->escapeString($res_inner[0]['id']);
+                    echo($product_1);
+                    
+
                     $type=$db->escapeString($_POST['type']);
                     #$measurement=$db->escapeString($_POST['loose_measurement'][$i]);
                     #$measurement_unit_id=$db->escapeString($_POST['loose_measurement_unit_id'][$i]);
@@ -186,9 +191,11 @@
                     $stock=$db->escapeString($_POST['loose_stock']);
                     $stock_unit_id=$db->escapeString($_POST['loose_stock_unit_id']);
 
-                    $sql="INSERT INTO product_variant (product_id,type,measurement,price,serve_for,stock,stock_unit_id) VALUES('$product_id','$type','$measurement','$measurement_unit_id','$price','$discounted_price','$serve_for','$stock','$stock_unit_id')";
+                    $sql="INSERT INTO product_variant (product_id,type,price,serve_for,stock,stock_unit_id) VALUES('21','1','20','1','10','1')";
                      $db->sql($sql);
                      $product_variant = $db->getResult();
+                     echo($type);
+                     echo($price +$serve_for+ $stock + $stock_unit_id);
                
 			    }
                      if(!empty($product_variant)){
@@ -197,7 +204,7 @@
                 else{
                     $product_variant=1;
                 }
-                // print_r($product_variant);
+            ///print_r($product_variant);
 			}
     		if($product_variant==1){
     			$error['add_menu'] = "<section class='content-header'>
@@ -264,19 +271,19 @@
 							<div class="row">
 	                            <div class="col-md-2">
 	                                <div class="form-group packate_div">
-	                                    <label for="price">Precio  (<?=$settings['currency']?>):</label><input type="text" class="form-control" name="packate_price[]" id="packate_price" required />
+	                                    <label for="price">Precio  (<?=$settings['currency']?>):</label><input type="text" class="form-control" name="packate_price" id="packate_price" required />
                             	    </div>
                             	</div>
                             	<div class="col-md-1">
                             	    <div class="form-group packate_div">
                                         <label for="qty">Stock:</label>
-                                        <input type="text" class="form-control" name="packate_stock[]" />
+                                        <input type="number" class="form-control" name="packate_stock" />
                             		</div>
                             	</div>
                             	<div class="col-md-1">
                             	    <div class="form-group packate_div">
                                         <label for="unit">Unidad:</label>
-                                        <select class="form-control" name="packate_stock_unit_id[]">
+                                        <select class="form-control" name="packate_stock_unit_id">
                                             <?php
                                                 foreach($res_unit as  $row){
                                                     echo "<option value='".$row['id']."'>".$row['short_code']."</option>";
@@ -288,7 +295,7 @@
                             	<div class="col-md-2">
                             	    <div class="form-group packate_div">
                                         <label for="qty">Estado:</label>
-                                        <select name="packate_serve_for[]" class="form-control" required>
+                                        <select name="packate_serve_for" class="form-control" required>
                                             <option value="disponible">Disponible</option>
                                             <option value="agotado">Agotado</option>
                                         </select>
@@ -306,7 +313,7 @@
                         		<div class="col-md-3">
                         		    <div class="form-group loose_div">
                             		    <label for="price">Precio  (<?=$settings['currency']?>):</label>
-                            		    <input type="text" class="form-control" name="loose_price[]" id="loose_price" required="">
+                            		    <input type="text" class="form-control" name="loose_price" id="loose_price" required="">
                         		    </div>
                         		</div>
                         		<div class="col-md-1">
@@ -332,7 +339,7 @@
                             </select>
                         </div>
                         <div class="form-group" id="packate_server_hide">
-                            <label for="serve_for">Status :</label><?php echo isset($error['serve_for']) ? $error['serve_for'] : '';?>
+                            <label for="serve_for">Estado :</label><?php echo isset($error['serve_for']) ? $error['serve_for'] : '';?>
                             <select name="serve_for" class="form-control" required>
                                 <option value="disponible">Disponible</option>
                                 <option value="agotado">Agotado</option>

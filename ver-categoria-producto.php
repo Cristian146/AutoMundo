@@ -77,7 +77,6 @@ session_start();
                                 <th> No. </th>
                                  <th> Nombre </th>
                                  <th> Imagen </th>
-    
                                  <th> Productos </th>
                                  <th> Acción </th>
                             </tr>

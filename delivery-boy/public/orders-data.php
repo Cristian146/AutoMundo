@@ -82,7 +82,6 @@
                                         echo " <b>Unidad : </b>" . $item[3]." ".$item[4];
                                         echo " <b>Cantidad : </b>" . $item[5];
                                         echo " <b>Precio : </b>" . $item[7];
-                                        echo " <b>Precio descontado : </b>" . $item[6];
                                         echo " <b>Subtotal : </b>" . $subtotal;
                                         echo " <b>Estado activo : </b>" . $active_status."<br>
                                         -----------------------------------<br>";

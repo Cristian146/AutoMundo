@@ -83,7 +83,6 @@ session_start();
                                  <th> Estado </th>
                                  <th> Stock </th>
                                  <th> Precio (<?=$settings ['currency']?>) </th>
-                                 <th> Precio con descuento (<?=$settings ['currency']?>) </th>
                                  <th> Acción </th>
 
 
@@ -101,9 +100,7 @@ session_start();
                                 <td><?php echo $row['name'];?></td>
                                 <td width="10%"><img src="<?php echo $row['image']; ?>" width="60" height="40"/></td>
                                 <td><?php echo $row['stock']." ".$row['mesurement_unit_name'];?></td>
-                                <td><?php echo $row['iva'];?></td>
                                 <td><?php echo $row['price'];?></td>
-                                <td><?php echo $row['discounted_price'];?></td>
                                 <td><a href="ver-variantes-producto.php?id=<?php echo $row['product_id'];?>"><i class="fa fa-trash"></i>Ver</a> <a href="editar-producto.php?id=<?php echo $row['product_id'];?>"><i class="fa fa-edit"></i>Editar</a> <a href="delete-product.php?id=<?php echo $row['product_id'];?>"><i class="fa fa-trash"></i>Eliminar</a></td>
 
                             </tr>

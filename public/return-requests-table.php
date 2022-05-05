@@ -36,7 +36,6 @@
                             <th data-field="name" data-sortable="true">U.Nombre</th>
                             <th data-field="product_name" data-sortable="true">nombre del producto</th>
                             <th data-field="price" data-sortable="true">Precio</th>
-                            <th data-field="discounted_price" data-sortable="true">Precio descontado</th>
                             <th data-field="quantity" data-sortable="true">Cantidad</th>
                             <th data-field="total" data-sortable="true">Total</th>
                             <th data-field="status">Estado</th>
